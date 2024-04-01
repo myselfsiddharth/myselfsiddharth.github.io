@@ -1,3 +1,15 @@
+
+    // JavaScript function to handle navigation
+    function academic() {
+        window.location.href = "academic.html"; // Redirect to academics.html
+     }
+     function Creative() {
+        window.location.href = "creative.html"; // Redirect to academics.html
+     }
+     function Coding() {
+        window.location.href = "coding.html"; // Redirect to academics.html
+     }
+     
 $(document).ready(function(){
     $(window).scroll(function(){
         // sticky navbar on scroll script
