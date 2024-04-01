@@ -380,8 +380,25 @@ section .title::after{
 
 /* teams section styling */
 .teams .title::after{
-    content: "who with me";
+    content: "";
 }
+.box a {
+    display: inline-block;
+    padding: 10px 20px;
+    border: 2px solid #4CAF50; /* Green border */
+    background-color: #4CAF50; /* Green background */
+    color: white; /* White text color */
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 5px; /* Rounded corners */
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  }
+  
+  .box a:hover {
+    background-color: white; /* White background */
+    color: #4CAF50; /* Green text color */
+  }
+
 .teams .carousel .card{
     background: #222;
     border-radius: 6px;
