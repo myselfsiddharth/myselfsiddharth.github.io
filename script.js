@@ -85,9 +85,8 @@ $(document).ready(function(){
 });
 
 document.getElementById('contact-form').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent form from submitting the traditional way
-    
-    // Collect data from form fields
+    event.preventDefault();
+
     const formData = {
         name: document.getElementById('name').value,
         email: document.getElementById('email').value,
@@ -95,12 +94,12 @@ document.getElementById('contact-form').addEventListener('submit', function(even
         message: document.getElementById('message').value
     };
 
-    // Send email using EmailJS
     emailjs.send("service_axhbv46", "template_f2g0k8d", formData)
     .then(function(response) {
         alert('Message sent successfully!');
+        console.log('Success:', response);
     }, function(error) {
         alert('Failed to send message. Please try again later.');
-        console.log("Form data:", formData);
+        console.error('Error:', error);
     });
 });
