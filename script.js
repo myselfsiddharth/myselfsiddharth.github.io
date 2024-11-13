@@ -96,7 +96,7 @@ document.getElementById('contact-form').addEventListener('submit', function(even
     };
 
     // Send email using EmailJS
-    emailjs.send("service_axhbv46", "YOUR_TEMPLATE_ID", formData)
+    emailjs.send("service_axhbv46", "template_f2g0k8d", formData)
     .then(function(response) {
         alert('Message sent successfully!');
     }, function(error) {
