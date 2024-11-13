@@ -101,5 +101,6 @@ document.getElementById('contact-form').addEventListener('submit', function(even
         alert('Message sent successfully!');
     }, function(error) {
         alert('Failed to send message. Please try again later.');
+        console.log("Form data:", formData);
     });
 });
