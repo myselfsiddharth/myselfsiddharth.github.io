@@ -83,3 +83,23 @@ $(document).ready(function(){
         }
     });
 });
+
+document.getElementById('contact-form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent form from submitting the traditional way
+    
+    // Collect data from form fields
+    const formData = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        subject: document.getElementById('subject').value,
+        message: document.getElementById('message').value
+    };
+
+    // Send email using EmailJS
+    emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", formData)
+    .then(function(response) {
+        alert('Message sent successfully!');
+    }, function(error) {
+        alert('Failed to send message. Please try again later.');
+    });
+});
