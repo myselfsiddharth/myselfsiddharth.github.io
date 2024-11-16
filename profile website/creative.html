@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        /* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #111;
+    color: #fff;
+    overflow-x: hidden;
+}
+
+.gallery-container {
+    text-align: center;
+    padding: 20px;
+}
+
+.gallery-container h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    overflow-y: auto;
+}
+
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.7);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.05);
+}
+
+
+
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scrollable Gallery</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="gallery-container">
+        <h1>CALVIN PAUSANIA</h1>
+        <div class="gallery">
+            <div class="gallery-item">
+                <img src="https://photos.app.goo.gl/gVuYghsjD3h3eSJp8" alt="Image 1">
+            </div>
+            <div class="gallery-item">
+                <img src="https://via.placeholder.com/300x400" alt="Image 2">
+            </div>
+            <div class="gallery-item">
+                <img src="https://via.placeholder.com/300x400" alt="Image 3">
+            </div>
+            <div class="gallery-item">
+                <img src="https://via.placeholder.com/300x400" alt="Image 4">
+            </div>
+            <div class="gallery-item">
+                <img src="https://via.placeholder.com/300x400" alt="Image 5">
+            </div>
+            <div class="gallery-item">
+                <img src="https://via.placeholder.com/300x400" alt="Image 6">
+            </div>
+        </div>
+    </div>
+</body>
+</html>
