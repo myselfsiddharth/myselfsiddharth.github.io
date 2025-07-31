@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Link Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-link { display: block; margin: 10px 0; padding: 10px; background: #f0f0f0; }
+        .btn-resume { background: #007bff; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; }
+        .resume-link { color: #007bff; text-decoration: none; }
+        .fab-resume { background: #28a745; color: white; text-decoration: none; padding: 10px; border-radius: 50%; }
+    </style>
+</head>
+<body>
+    <h1>Resume Link Test</h1>
+    <p>This page tests the resume link functionality. Check the console to see the current resume link value.</p>
+    
+    <div class="test-link">
+        <a href="resume.pdf" target="_blank" class="btn btn-resume">
+            <i class="fas fa-file-alt"></i>
+            Download Resume (Button)
+        </a>
+    </div>
+    
+    <div class="test-link">
+        <a href="resume.pdf" target="_blank" class="resume-link">
+            <i class="fas fa-download"></i> Download Resume (Link)
+        </a>
+    </div>
+    
+    <div class="test-link">
+        <a href="resume.pdf" target="_blank" class="fab-button fab-resume" title="Download Resume">
+            <i class="fas fa-file-alt"></i>
+        </a>
+    </div>
+    
+    <p><strong>Instructions:</strong></p>
+    <ul>
+        <li>Open browser console (F12) to see the current resume link value</li>
+        <li>Change the <code>resumeLink</code> variable in script.js to test different links</li>
+        <li>All three links above should use the same value from the variable</li>
+    </ul>
+
+    <script src="script.js"></script>
+</body>
+</html> 
