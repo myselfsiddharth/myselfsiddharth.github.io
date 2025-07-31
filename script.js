@@ -144,6 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Contact Form Handling
+window.emailjs = emailjs;
 if (contactForm) {
     contactForm.addEventListener('submit', async (e) => {
         e.preventDefault();
