@@ -162,6 +162,14 @@ if (contactForm) {
         submitBtn.disabled = true;
         
         try {
+            const result = await emailjs.send('service_axhbv46', 'template_enyb37u', {
+    from_name: formData.name,
+    from_email: formData.email,
+    subject: formData.subject,
+    message: formData.message,
+});
+console.log('EmailJS response:', result);
+            
             // EmailJS integration
             if (typeof emailjs !== 'undefined') {
                 // Use a proper template ID - you'll need to replace this with your actual template ID
