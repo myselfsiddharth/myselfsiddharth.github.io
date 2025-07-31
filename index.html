@@ -21,11 +21,15 @@
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     
     <!-- EmailJS -->
-    <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
-<script type="module">
-  import emailjs
-  emailjs.init('public_GhX4W6DatXwTD_Wv9'); // Your actual public key
-  window.emailjs = emailjs; // So it's accessible globally in script.js
+<script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+</script>
+<script type="text/javascript">
+   (function(){
+      emailjs.init({
+        publicKey: "GhX4W6DatXwTD_Wv9",
+      });
+   })();
 </script>
 
 </head>
