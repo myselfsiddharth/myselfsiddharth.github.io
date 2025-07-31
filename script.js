@@ -172,7 +172,6 @@ if (contactForm) {
                     from_email: formData.email,
                     subject: formData.subject,
                     message: formData.message,
-                    to_email: 'smehta74@asu.edu' // Add recipient email
                 });
                 
                 showNotification('Message sent successfully! I\'ll get back to you soon.', 'success');
