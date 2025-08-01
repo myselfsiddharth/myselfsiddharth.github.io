@@ -386,12 +386,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         // Create floating particles
-for (let i = 0; i < 5; i++) {
-    const offsetX = (Math.random() - 0.5) * 10;
-    const offsetY = (Math.random() - 0.5) * 10;
-    createFloatingParticle(e.clientX + offsetX, e.clientY + offsetY);
-}
-    });
+    if (Math.random() < 0.8) {
+        for (let i = 0; i < 4; i++) {
+            const offsetX = (Math.random() - 0.5) * 12;
+            const offsetY = (Math.random() - 0.5) * 12;
+            createFloatingParticle(e.clientX + offsetX, e.clientY + offsetY);
+        }
+    }
     
     function createFloatingParticle(x, y) {
         const particle = document.createElement('div');
