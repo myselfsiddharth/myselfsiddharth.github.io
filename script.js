@@ -353,65 +353,69 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 100);
     
     // Add particle trail effect to mouse
-    let mouseTrail = [];
-    const maxTrailLength = 20;
-    
-    document.addEventListener('mousemove', (e) => {
-        const particle = {
-            x: e.clientX,
-            y: e.clientY,
-            timestamp: Date.now()
-        };
-        
-        mouseTrail.push(particle);
-        
-        if (mouseTrail.length > maxTrailLength) {
-            mouseTrail.shift();
-        }
-        
-        // Create floating particles
-        if (Math.random() < 0.1) {
-            createFloatingParticle(e.clientX, e.clientY);
-        }
-    });
-    
-    function createFloatingParticle(x, y) {
-        const particle = document.createElement('div');
-        particle.style.cssText = `
-            position: fixed;
-            left: ${x}px;
-            top: ${y}px;
-            width: 4px;
-            height: 4px;
-            background: var(--primary-color);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            opacity: 0.6;
-        `;
-        
-        document.body.appendChild(particle);
-        
-        // Animate particle
-        const animation = particle.animate([
-            { 
-                transform: 'translate(0, 0) scale(1)',
-                opacity: 0.6
-            },
-            { 
-                transform: `translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px) scale(0)`,
-                opacity: 0
-            }
-        ], {
-            duration: 1000,
-            easing: 'ease-out'
-        });
-        
-        animation.onfinish = () => {
-            document.body.removeChild(particle);
-        };
+    // Add particle trail effect to mouse
+let mouseTrail = [];
+const maxTrailLength = 50; // Increased trail length
+
+document.addEventListener('mousemove', (e) => {
+    const particle = {
+        x: e.clientX,
+        y: e.clientY,
+        timestamp: Date.now()
+    };
+
+    mouseTrail.push(particle);
+
+    if (mouseTrail.length > maxTrailLength) {
+        mouseTrail.shift();
+    }
+
+    // Create floating particles more frequently
+    for (let i = 0; i < 2; i++) {
+        createFloatingParticle(e.clientX, e.clientY);
     }
 });
+
+function createFloatingParticle(x, y) {
+    const particle = document.createElement('div');
+    const size = Math.floor(Math.random() * 8 + 6); // Random size between 6px and 14px
+    const color = `hsl(${Math.floor(Math.random() * 360)}, 100%, 60%)`; // Vivid color
+
+    particle.style.cssText = `
+        position: fixed;
+        left: ${x}px;
+        top: ${y}px;
+        width: ${size}px;
+        height: ${size}px;
+        background: ${color};
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        opacity: 0.9;
+        box-shadow: 0 0 10px ${color}, 0 0 20px ${color}; /* Glow effect */
+    `;
+
+    document.body.appendChild(particle);
+
+    // Animate particle
+    const animation = particle.animate([
+        {
+            transform: 'translate(0, 0) scale(1)',
+            opacity: 0.9
+        },
+        {
+            transform: `translate(${Math.random() * 60 - 30}px, ${Math.random() * 60 - 30}px) scale(1.5)`,
+            opacity: 0
+        }
+    ], {
+        duration: 1500, // Longer animation duration
+        easing: 'ease-out'
+    });
+
+    animation.onfinish = () => {
+        document.body.removeChild(particle);
+    };
+}
 
 // Scroll to top functionality
 const scrollToTopBtn = document.getElementById('scrollToTop');
