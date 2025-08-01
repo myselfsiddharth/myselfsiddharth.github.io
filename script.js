@@ -369,8 +369,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 100);
     
     // Add particle trail effect to mouse
+    // Add enhanced particle trail effect to mouse
     let mouseTrail = [];
-    const maxTrailLength = 20;
+    const maxTrailLength = 30;
     
     document.addEventListener('mousemove', (e) => {
         const particle = {
@@ -385,45 +386,99 @@ document.addEventListener('DOMContentLoaded', () => {
             mouseTrail.shift();
         }
         
-        // Create floating particles
-        if (Math.random() < 0.1) {
+        // Create floating particles more frequently
+        if (Math.random() < 0.3) {
             createFloatingParticle(e.clientX, e.clientY);
         }
+        
+        // Create trail particles
+        createTrailParticle(e.clientX, e.clientY);
+    });
     
     function createFloatingParticle(x, y) {
         const particle = document.createElement('div');
+        const size = Math.random() * 8 + 6; // 6-14px size
+        const colors = ['#00d4ff', '#4ecdc4', '#a855f7', '#f97316', '#ffffff'];
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        
         particle.style.cssText = `
             position: fixed;
             left: ${x}px;
             top: ${y}px;
-            width: 4px;
-            height: 4px;
-            background: var(--primary-color);
+            width: ${size}px;
+            height: ${size}px;
+            background: ${color};
             border-radius: 50%;
             pointer-events: none;
             z-index: 9999;
-            opacity: 0.6;
+            opacity: 0.8;
+            box-shadow: 0 0 ${size * 2}px ${color}, 0 0 ${size * 4}px ${color};
+            filter: blur(0.5px);
         `;
         
         document.body.appendChild(particle);
         
-        // Animate particle
+        // Animate particle with more dramatic movement
         const animation = particle.animate([
             { 
                 transform: 'translate(0, 0) scale(1)',
-                opacity: 0.6
+                opacity: 0.8
             },
             { 
-                transform: `translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px) scale(0)`,
+                transform: `translate(${Math.random() * 200 - 100}px, ${Math.random() * 200 - 100}px) scale(0)`,
                 opacity: 0
             }
         ], {
-            duration: 1000,
+            duration: 1500 + Math.random() * 1000,
             easing: 'ease-out'
         });
         
         animation.onfinish = () => {
-            document.body.removeChild(particle);
+            if (particle.parentNode) {
+                document.body.removeChild(particle);
+            }
+        };
+    }
+    
+    function createTrailParticle(x, y) {
+        const particle = document.createElement('div');
+        const size = Math.random() * 4 + 2; // 2-6px size
+        
+        particle.style.cssText = `
+            position: fixed;
+            left: ${x}px;
+            top: ${y}px;
+            width: ${size}px;
+            height: ${size}px;
+            background: linear-gradient(45deg, #00d4ff, #4ecdc4);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            opacity: 0.7;
+            box-shadow: 0 0 ${size * 3}px rgba(0, 212, 255, 0.6);
+        `;
+        
+        document.body.appendChild(particle);
+        
+        // Animate trail particle
+        const animation = particle.animate([
+            { 
+                transform: 'translate(0, 0) scale(1)',
+                opacity: 0.7
+            },
+            { 
+                transform: `translate(${Math.random() * 60 - 30}px, ${Math.random() * 60 - 30}px) scale(0)`,
+                opacity: 0
+            }
+        ], {
+            duration: 800 + Math.random() * 400,
+            easing: 'ease-out'
+        });
+        
+        animation.onfinish = () => {
+            if (particle.parentNode) {
+                document.body.removeChild(particle);
+            }
         };
     }
 });
