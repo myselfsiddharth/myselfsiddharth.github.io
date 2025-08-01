@@ -371,7 +371,7 @@ document.addEventListener('mousemove', (e) => {
     }
 
     // Create floating particles more frequently
-    for (let i = 0; i < 2; i++) {
+    for (let i = 0; i < 10; i++) {
         createFloatingParticle(e.clientX, e.clientY);
     }
 });
