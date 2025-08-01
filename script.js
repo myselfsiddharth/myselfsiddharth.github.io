@@ -144,7 +144,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Contact Form Handling
-window.emailjs = emailjs;
 if (contactForm) {
     contactForm.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -163,37 +162,54 @@ if (contactForm) {
         submitBtn.disabled = true;
         
         try {
-            const result = await emailjs.send('service_axhbv46', 'template_enyb37u', {
-    from_name: formData.name,
-    from_email: formData.email,
-    subject: formData.subject,
-    message: formData.message,
-});
-console.log('EmailJS response:', result);
-            
             // EmailJS integration
             if (typeof emailjs !== 'undefined') {
+                console.log('EmailJS is loaded:', emailjs);
+                console.log('Attempting to send email with data:', formData);
+                
                 // Use a proper template ID - you'll need to replace this with your actual template ID
                 const templateId = 'template_enyb37u'; // Replace with your actual template ID
+                const serviceId = 'service_axhbv46';
                 
-                await emailjs.send('service_axhbv46', templateId, {
+                console.log('Using service ID:', serviceId);
+                console.log('Using template ID:', templateId);
+                
+                await emailjs.send(serviceId, templateId, {
                     from_name: formData.name,
                     from_email: formData.email,
                     subject: formData.subject,
                     message: formData.message,
+                    to_email: 'smehta74@asu.edu' // Add recipient email
                 });
                 
+                console.log('Email sent successfully!');
                 showNotification('Message sent successfully! I\'ll get back to you soon.', 'success');
                 contactForm.reset();
             } else {
                 // Fallback for demo - simulate email sending
+                console.log('EmailJS not loaded, using demo mode');
                 console.log('Form data:', formData);
                 showNotification('Demo mode: Message would be sent to smehta74@asu.edu', 'info');
                 contactForm.reset();
             }
         } catch (error) {
             console.error('Error sending message:', error);
-            showNotification('Email service not configured. Please contact me directly at smehta74@asu.edu', 'error');
+            console.error('Error details:', {
+                message: error.message,
+                status: error.status,
+                response: error.response
+            });
+            
+            let errorMessage = 'Email service error. Please contact me directly at smehta74@asu.edu';
+            if (error.status === 400) {
+                errorMessage = 'Invalid email configuration. Please check EmailJS setup.';
+            } else if (error.status === 401) {
+                errorMessage = 'Email service authentication failed. Please check EmailJS credentials.';
+            } else if (error.status === 404) {
+                errorMessage = 'Email template not found. Please check template ID.';
+            }
+            
+            showNotification(errorMessage, 'error');
         } finally {
             submitBtn.innerHTML = originalText;
             submitBtn.disabled = false;
@@ -353,69 +369,65 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 100);
     
     // Add particle trail effect to mouse
-    // Add particle trail effect to mouse
-let mouseTrail = [];
-const maxTrailLength = 50; // Increased trail length
-
-document.addEventListener('mousemove', (e) => {
-    const particle = {
-        x: e.clientX,
-        y: e.clientY,
-        timestamp: Date.now()
-    };
-
-    mouseTrail.push(particle);
-
-    if (mouseTrail.length > maxTrailLength) {
-        mouseTrail.shift();
-    }
-
-    // Create floating particles more frequently
-    for (let i = 0; i < 10; i++) {
-        createFloatingParticle(e.clientX, e.clientY);
+    let mouseTrail = [];
+    const maxTrailLength = 20;
+    
+    document.addEventListener('mousemove', (e) => {
+        const particle = {
+            x: e.clientX,
+            y: e.clientY,
+            timestamp: Date.now()
+        };
+        
+        mouseTrail.push(particle);
+        
+        if (mouseTrail.length > maxTrailLength) {
+            mouseTrail.shift();
+        }
+        
+        // Create floating particles
+        if (Math.random() < 0.1) {
+            createFloatingParticle(e.clientX, e.clientY);
+        }
+    });
+    
+    function createFloatingParticle(x, y) {
+        const particle = document.createElement('div');
+        particle.style.cssText = `
+            position: fixed;
+            left: ${x}px;
+            top: ${y}px;
+            width: 4px;
+            height: 4px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.6;
+        `;
+        
+        document.body.appendChild(particle);
+        
+        // Animate particle
+        const animation = particle.animate([
+            { 
+                transform: 'translate(0, 0) scale(1)',
+                opacity: 0.6
+            },
+            { 
+                transform: `translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px) scale(0)`,
+                opacity: 0
+            }
+        ], {
+            duration: 1000,
+            easing: 'ease-out'
+        });
+        
+        animation.onfinish = () => {
+            document.body.removeChild(particle);
+        };
     }
 });
-
-function createFloatingParticle(x, y) {
-    const particle = document.createElement('div');
-    const size = Math.floor(Math.random() * 8 + 6); // Random size between 6px and 14px
-    const color = `hsl(${Math.floor(Math.random() * 360)}, 100%, 60%)`; // Vivid color
-
-    particle.style.cssText = `
-        position: fixed;
-        left: ${x}px;
-        top: ${y}px;
-        width: ${size}px;
-        height: ${size}px;
-        background: ${color};
-        border-radius: 50%;
-        pointer-events: none;
-        z-index: 9999;
-        opacity: 0.9;
-        box-shadow: 0 0 10px ${color}, 0 0 20px ${color}; /* Glow effect */
-    `;
-
-    document.body.appendChild(particle);
-
-    // Animate particle
-    const animation = particle.animate([
-        {
-            transform: 'translate(0, 0) scale(1)',
-            opacity: 0.9
-        },
-        {
-            transform: `translate(${Math.random() * 60 - 30}px, ${Math.random() * 60 - 30}px) scale(1.5)`,
-            opacity: 0
-        }
-    ], {
-        duration: 1500, // Longer animation duration
-        easing: 'ease-out'
-    });
-
-    animation.onfinish = () => {
-        document.body.removeChild(particle);
-    };
-}
 
 // Scroll to top functionality
 const scrollToTopBtn = document.getElementById('scrollToTop');
