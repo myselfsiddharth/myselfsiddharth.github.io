@@ -398,6 +398,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const progressBar = document.querySelector('.swipe-progress-bar');
     const arrowContainer = document.querySelector('.swipe-arrow-container');
     
+    // Prevent scrolling when swipe screen is active
+    function preventScroll(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    }
+    
+    // Disable scrolling on the body when swipe screen is visible
+    if (swipeScreen && swipeScreen.style.display !== 'none') {
+        document.addEventListener('touchmove', preventScroll, { passive: false });
+        document.addEventListener('wheel', preventScroll, { passive: false });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowUp' || e.key === 'ArrowDown' || e.key === ' ' || e.key === 'PageUp' || e.key === 'PageDown') {
+                e.preventDefault();
+            }
+        });
+    }
+    
     // Touch event handlers
     function handleTouchStart(e) {
         startY = e.touches[0].clientY;
@@ -434,6 +452,10 @@ document.addEventListener('DOMContentLoaded', () => {
             swipeScreen.classList.add('hide');
             setTimeout(() => {
                 swipeScreen.style.display = 'none';
+                // Re-enable scrolling
+                document.body.style.overflow = '';
+                document.removeEventListener('touchmove', preventScroll);
+                document.removeEventListener('wheel', preventScroll);
                 console.log('Swipe screen hidden');
             }, 800);
         } else {
@@ -482,6 +504,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 swipeScreen.classList.add('hide');
                 setTimeout(() => {
                     swipeScreen.style.display = 'none';
+                    // Re-enable scrolling
+                    document.body.style.overflow = '';
+                    document.removeEventListener('touchmove', preventScroll);
+                    document.removeEventListener('wheel', preventScroll);
                     console.log('Swipe screen hidden');
                 }, 800);
             } else {
@@ -507,6 +533,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Hide swipe screen after animation completes
                 setTimeout(() => {
                     swipeScreen.style.display = 'none';
+                    // Re-enable scrolling
+                    document.body.style.overflow = '';
+                    document.removeEventListener('touchmove', preventScroll);
+                    document.removeEventListener('wheel', preventScroll);
                     console.log('Swipe screen hidden via click');
                 }, 800);
             }
