@@ -518,6 +518,44 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+    
+    // Pause/Play button functionality
+    const pauseButton = document.getElementById('pauseButton');
+    let isMusicPlaying = false;
+    
+    if (pauseButton && backgroundMusic) {
+        // Update button state based on music status
+        function updatePauseButton() {
+            const icon = pauseButton.querySelector('i');
+            if (backgroundMusic.paused) {
+                icon.className = 'fas fa-play';
+                pauseButton.title = 'Play Music';
+                isMusicPlaying = false;
+            } else {
+                icon.className = 'fas fa-pause';
+                pauseButton.title = 'Pause Music';
+                isMusicPlaying = true;
+            }
+        }
+        
+        // Initialize button state
+        updatePauseButton();
+        
+        // Add click event listener
+        pauseButton.addEventListener('click', () => {
+            if (backgroundMusic.paused) {
+                backgroundMusic.play().catch(e => console.log('Music play failed:', e));
+            } else {
+                backgroundMusic.pause();
+            }
+            updatePauseButton();
+        });
+        
+        // Listen for music state changes
+        backgroundMusic.addEventListener('play', updatePauseButton);
+        backgroundMusic.addEventListener('pause', updatePauseButton);
+        backgroundMusic.addEventListener('ended', updatePauseButton);
+    }
         
     // Body is already visible, no need for fade-in animation
     

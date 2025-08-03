@@ -496,7 +496,7 @@ body {
     border-top: none;
     border-left: none;
     transform: rotate(45deg);
-    box-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+
     transition: var(--transition);
 }
 
@@ -1196,6 +1196,16 @@ body {
 
 .fab-resume {
     animation-delay: 0s;
+}
+
+.fab-pause {
+    animation-delay: 0.75s;
+    background: linear-gradient(45deg, var(--secondary-color), var(--accent-color));
+    box-shadow: var(--shadow), 0 0 20px rgba(255, 193, 7, 0.3);
+}
+
+.fab-pause:hover {
+    box-shadow: var(--shadow), 0 0 30px rgba(255, 193, 7, 0.5);
 }
 
 .fab-top {
