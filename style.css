@@ -875,14 +875,14 @@ body {
     background: rgba(0, 212, 255, 0.2);
 }
 
-.project-image-link {
+.project-card-link {
     display: block;
     text-decoration: none;
     color: inherit;
     transition: var(--transition);
 }
 
-.project-image-link:hover {
+.project-card-link:hover {
     transform: translateY(-5px);
 }
 
