@@ -35,6 +35,12 @@
 </head>
 <body>
 
+<!-- Loading Screen -->
+<div class="loading-screen" id="loadingScreen">
+    <div class="loading-spinner"></div>
+    <div class="loading-text">Loading Portfolio...</div>
+</div>
+
 <audio id="bg-music" src="my-music.mp3" autoplay loop></audio>
 
     
@@ -82,7 +88,7 @@
             <div class="hero-content">
                 <div class="hero-text">
                     <p class="hero-greeting">Hello, I'm</p>
-                    <h1 class="hero-title">Siddharth Mehta</h1>
+                    <h1 class="hero-title" data-text="Siddharth Mehta">Siddharth Mehta</h1>
                     <p class="hero-subtitle">Computer Science Student & Software Engineer</p>
                     <div class="hero-description">
                         <span> I work on</span>
@@ -445,16 +451,16 @@
             </div>
             <div class="projects-grid">
                 <div class="project-card">
-                    <div class="project-image">
-                        <img src="agame.jpg" alt="Agame.com Project">
-                        <div class="project-overlay">
-                            <div class="project-links">
-                                <a href="https://github.com/myselfsiddharth/Game-Distribution-Website" target="_blank">
+                    <a href="https://github.com/myselfsiddharth/Game-Distribution-Website" target="_blank" class="project-image-link">
+                        <div class="project-image">
+                            <img src="agame.jpg" alt="Agame.com Project">
+                            <div class="project-overlay">
+                                <div class="project-links">
                                     <i class="fab fa-github"></i>
-                                </a>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
                     <div class="project-content">
                         <h3>Agame.com</h3>
                         <p>A comprehensive game distribution platform built with Django framework, featuring user authentication, game management, and modern UI/UX.</p>
@@ -467,16 +473,16 @@
                 </div>
 
                 <div class="project-card">
-                    <div class="project-image">
-                        <img src="self-driving.png" alt="Self-Driving Vehicle Project">
-                        <div class="project-overlay">
-                            <div class="project-links">
-                                <a href="https://youtu.be/dmohOMTcfWA?si=QvrhO17E0FYUL-oP" target="_blank">
+                    <a href="https://youtu.be/dmohOMTcfWA?si=QvrhO17E0FYUL-oP" target="_blank" class="project-image-link">
+                        <div class="project-image">
+                            <img src="self-driving.png" alt="Self-Driving Vehicle Project">
+                            <div class="project-overlay">
+                                <div class="project-links">
                                     <i class="fas fa-play"></i>
-                                </a>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
                     <div class="project-content">
                         <h3>Self-Driving Vehicle</h3>
                         <p>Designed and built an autonomous vehicle system specifically for differently-abled individuals, incorporating advanced sensors and AI algorithms.</p>
@@ -489,16 +495,16 @@
                 </div>
 
                 <div class="project-card">
-                    <div class="project-image">
-                        <img src="cali-house.png" alt="California Housing Price Predictor">
-                        <div class="project-overlay">
-                            <div class="project-links">
-                                <a href="https://github.com/myselfsiddharth/California-Housing-Price-Prediction" target="_blank">
+                    <a href="https://github.com/myselfsiddharth/California-Housing-Price-Prediction" target="_blank" class="project-image-link">
+                        <div class="project-image">
+                            <img src="cali-house.png" alt="California Housing Price Predictor">
+                            <div class="project-overlay">
+                                <div class="project-links">
                                     <i class="fab fa-github"></i>
-                                </a>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
                     <div class="project-content">
                         <h3>Housing Price Predictor</h3>
                         <p>Machine learning model using Random Forest Regression to predict California housing prices with high accuracy and comprehensive data analysis.</p>
@@ -511,18 +517,18 @@
                 </div>
 
                 <div class="project-card">
-                    <div class="project-image">
-                        <div class="project-placeholder">
-                            <i class="fas fa-code"></i>
-                        </div>
-                        <div class="project-overlay">
-                            <div class="project-links">
-                                <a href="#" target="_blank">
-                                    <i class="fas fa-external-link-alt"></i>
-                                </a>
+                    <a href="https://github.com/myselfsiddharth" target="_blank" class="project-image-link">
+                        <div class="project-image">
+                            <div class="project-placeholder">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <div class="project-overlay">
+                                <div class="project-links">
+                                    <i class="fab fa-github"></i>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
                     <div class="project-content">
                         <h3>DSA Assistant</h3>
                         <p>An intelligent tool designed to help students learn Data Structures and Algorithms through interactive examples and comprehensive explanations.</p>

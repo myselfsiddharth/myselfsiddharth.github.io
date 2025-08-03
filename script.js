@@ -135,10 +135,29 @@ const observer = new IntersectionObserver((entries) => {
 
 // Observe elements for animation
 document.addEventListener('DOMContentLoaded', () => {
-    // Add fade-in class to elements
-    const animateElements = document.querySelectorAll('.skill-category, .project-card, .achievement-card, .highlight-item, .stat-card, .tech-item');
-    animateElements.forEach(el => {
+    // Add animation classes to elements
+    const fadeElements = document.querySelectorAll('.skill-category, .project-card, .achievement-card, .highlight-item, .stat-card, .tech-item');
+    const slideLeftElements = document.querySelectorAll('.about-text');
+    const slideRightElements = document.querySelectorAll('.about-stats');
+    const scaleElements = document.querySelectorAll('.hero-content, .contact-content');
+    
+    fadeElements.forEach(el => {
         el.classList.add('fade-in');
+        observer.observe(el);
+    });
+    
+    slideLeftElements.forEach(el => {
+        el.classList.add('slide-in-left');
+        observer.observe(el);
+    });
+    
+    slideRightElements.forEach(el => {
+        el.classList.add('slide-in-right');
+        observer.observe(el);
+    });
+    
+    scaleElements.forEach(el => {
+        el.classList.add('scale-in');
         observer.observe(el);
     });
 });
@@ -360,127 +379,85 @@ document.head.appendChild(style);
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Portfolio loaded successfully! 🚀');
     
-    // Add loading animation
-    document.body.style.opacity = '0';
-    document.body.style.transition = 'opacity 0.5s ease';
+    // Handle loading screen
+    const loadingScreen = document.getElementById('loadingScreen');
     
+    // Simulate loading time and hide loading screen
     setTimeout(() => {
-        document.body.style.opacity = '1';
-    }, 100);
+        if (loadingScreen) {
+            loadingScreen.style.opacity = '0';
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+            }, 500);
+        }
+        
+        // Add fade-in animation to body
+        document.body.style.opacity = '0';
+        document.body.style.transition = 'opacity 1s ease';
+        
+        setTimeout(() => {
+            document.body.style.opacity = '1';
+        }, 100);
+    }, 2000);
     
-    // Add particle trail effect to mouse
-    // Add enhanced particle trail effect to mouse
-    let mouseTrail = [];
-    const maxTrailLength = 30;
+    // Simple and elegant cursor trail
+    let cursorTrail = [];
+    const maxTrailLength = 8;
     
     document.addEventListener('mousemove', (e) => {
-        const particle = {
+        cursorTrail.push({
             x: e.clientX,
             y: e.clientY,
             timestamp: Date.now()
-        };
+        });
         
-        mouseTrail.push(particle);
-        
-        if (mouseTrail.length > maxTrailLength) {
-            mouseTrail.shift();
+        if (cursorTrail.length > maxTrailLength) {
+            cursorTrail.shift();
         }
         
-        // Create floating particles more frequently
+        // Create simple trail dot occasionally
         if (Math.random() < 0.3) {
-            createFloatingParticle(e.clientX, e.clientY);
+            const dot = document.createElement('div');
+            const size = Math.random() * 4 + 2;
+            
+            dot.style.cssText = `
+                position: fixed;
+                left: ${e.clientX}px;
+                top: ${e.clientY}px;
+                width: ${size}px;
+                height: ${size}px;
+                background: var(--primary-color);
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 10000;
+                transform: translate(-50%, -50%);
+                opacity: 0.6;
+            `;
+            
+            document.body.appendChild(dot);
+            
+            // Fade out animation
+            const animation = dot.animate([
+                { 
+                    transform: 'translate(-50%, -50%) scale(1)',
+                    opacity: 0.6
+                },
+                { 
+                    transform: 'translate(-50%, -50%) scale(0)',
+                    opacity: 0
+                }
+            ], {
+                duration: 800,
+                easing: 'ease-out'
+            });
+            
+            animation.onfinish = () => {
+                if (dot.parentNode) {
+                    document.body.removeChild(dot);
+                }
+            };
         }
-        
-        // Create trail particles
-        createTrailParticle(e.clientX, e.clientY);
     });
-    
-    function createFloatingParticle(x, y) {
-        const particle = document.createElement('div');
-        const size = Math.random() * 8 + 6; // 6-14px size
-        const colors = ['#00d4ff', '#4ecdc4', '#a855f7', '#f97316', '#ffffff'];
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        
-        particle.style.cssText = `
-            position: fixed;
-            left: ${x}px;
-            top: ${y}px;
-            width: ${size}px;
-            height: ${size}px;
-            background: ${color};
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            opacity: 0.8;
-            box-shadow: 0 0 ${size * 2}px ${color}, 0 0 ${size * 4}px ${color};
-            filter: blur(0.5px);
-        `;
-        
-        document.body.appendChild(particle);
-        
-        // Animate particle with more dramatic movement
-        const animation = particle.animate([
-            { 
-                transform: 'translate(0, 0) scale(1)',
-                opacity: 0.8
-            },
-            { 
-                transform: `translate(${Math.random() * 200 - 100}px, ${Math.random() * 200 - 100}px) scale(0)`,
-                opacity: 0
-            }
-        ], {
-            duration: 1500 + Math.random() * 1000,
-            easing: 'ease-out'
-        });
-        
-        animation.onfinish = () => {
-            if (particle.parentNode) {
-                document.body.removeChild(particle);
-            }
-        };
-    }
-    
-    function createTrailParticle(x, y) {
-        const particle = document.createElement('div');
-        const size = Math.random() * 4 + 2; // 2-6px size
-        
-        particle.style.cssText = `
-            position: fixed;
-            left: ${x}px;
-            top: ${y}px;
-            width: ${size}px;
-            height: ${size}px;
-            background: linear-gradient(45deg, #00d4ff, #4ecdc4);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9998;
-            opacity: 0.7;
-            box-shadow: 0 0 ${size * 3}px rgba(0, 212, 255, 0.6);
-        `;
-        
-        document.body.appendChild(particle);
-        
-        // Animate trail particle
-        const animation = particle.animate([
-            { 
-                transform: 'translate(0, 0) scale(1)',
-                opacity: 0.7
-            },
-            { 
-                transform: `translate(${Math.random() * 60 - 30}px, ${Math.random() * 60 - 30}px) scale(0)`,
-                opacity: 0
-            }
-        ], {
-            duration: 800 + Math.random() * 400,
-            easing: 'ease-out'
-        });
-        
-        animation.onfinish = () => {
-            if (particle.parentNode) {
-                document.body.removeChild(particle);
-            }
-        };
-    }
 });
 
 // Scroll to top functionality
