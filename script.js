@@ -293,12 +293,17 @@ function Coding() {
 }
 
 // Parallax effect for hero section
+let parallaxInitialized = false;
 window.addEventListener('scroll', () => {
     const scrolled = window.pageYOffset;
     const hero = document.querySelector('.hero');
-    if (hero) {
+    if (hero && scrolled > 0) {
+        parallaxInitialized = true;
         const rate = scrolled * -0.5;
         hero.style.transform = `translateY(${rate}px)`;
+    } else if (hero && parallaxInitialized && scrolled === 0) {
+        // Reset transform when scrolled back to top
+        hero.style.transform = 'translateY(0)';
     }
 });
 
@@ -315,11 +320,14 @@ const revealObserver = new IntersectionObserver((entries) => {
     threshold: 0.1
 });
 
-revealSections.forEach(section => {
-    section.style.opacity = '0';
-    section.style.transform = 'translateY(50px)';
-    section.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-    revealObserver.observe(section);
+// Only apply reveal animation after page has loaded
+window.addEventListener('load', () => {
+    revealSections.forEach(section => {
+        section.style.opacity = '0';
+        section.style.transform = 'translateY(20px)'; // Reduced from 50px
+        section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        revealObserver.observe(section);
+    });
 });
 
 // Add hover effects to project cards
@@ -379,26 +387,139 @@ document.head.appendChild(style);
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Portfolio loaded successfully! 🚀');
     
-    // Handle loading screen
-    const loadingScreen = document.getElementById('loadingScreen');
+    // Handle swipe to unlock screen
+    const swipeScreen = document.getElementById('swipeScreen');
+    const backgroundMusic = document.getElementById('backgroundMusic');
     
-    // Simulate loading time and hide loading screen
-    setTimeout(() => {
-        if (loadingScreen) {
-            loadingScreen.style.opacity = '0';
-            setTimeout(() => {
-                loadingScreen.style.display = 'none';
-            }, 500);
+    // Touch/swipe variables
+    let startY = 0;
+    let currentY = 0;
+    let isSwiping = false;
+    
+    // Touch event handlers
+    function handleTouchStart(e) {
+        startY = e.touches[0].clientY;
+        isSwiping = true;
+        console.log('Touch started at:', startY);
+    }
+    
+    function handleTouchMove(e) {
+        if (!isSwiping) return;
+        currentY = e.touches[0].clientY;
+        const deltaY = startY - currentY;
+        
+        // Visual feedback during swipe
+        if (deltaY > 0) {
+            swipeScreen.style.transform = `translateY(-${Math.min(deltaY * 0.5, 100)}px)`;
+            swipeScreen.style.opacity = Math.max(1 - deltaY / 300, 0.3);
         }
+    }
+    
+    function handleTouchEnd(e) {
+        if (!isSwiping) return;
+        isSwiping = false;
         
-        // Add fade-in animation to body
-        document.body.style.opacity = '0';
-        document.body.style.transition = 'opacity 1s ease';
+        const deltaY = startY - currentY;
+        console.log('Swipe ended. Delta Y:', deltaY);
         
-        setTimeout(() => {
-            document.body.style.opacity = '1';
-        }, 100);
-    }, 2000);
+        // Check if swipe is sufficient (upward swipe of at least 80px for better usability)
+        if (deltaY > 80) {
+            console.log('Swipe successful! Unlocking portfolio...');
+            // Start music
+            if (backgroundMusic) {
+                backgroundMusic.play().catch(e => console.log('Music autoplay blocked:', e));
+            }
+            
+            // Hide swipe screen
+            swipeScreen.style.opacity = '0';
+            setTimeout(() => {
+                swipeScreen.style.display = 'none';
+                console.log('Swipe screen hidden');
+            }, 500);
+        } else {
+            console.log('Swipe insufficient, resetting...');
+            // Reset position if swipe wasn't sufficient
+            swipeScreen.style.transform = 'translateY(0)';
+            swipeScreen.style.opacity = '1';
+            // Small delay to prevent click fallback from interfering
+            setTimeout(() => {
+                isSwiping = false;
+            }, 100);
+        }
+    }
+    
+    // Add touch event listeners
+    if (swipeScreen) {
+        swipeScreen.addEventListener('touchstart', handleTouchStart, { passive: true });
+        swipeScreen.addEventListener('touchmove', handleTouchMove, { passive: true });
+        swipeScreen.addEventListener('touchend', handleTouchEnd, { passive: true });
+        
+        // Add mouse support for desktop
+        swipeScreen.addEventListener('mousedown', (e) => {
+            startY = e.clientY;
+            isSwiping = true;
+            console.log('Mouse down at:', startY);
+        });
+        
+        swipeScreen.addEventListener('mousemove', (e) => {
+            if (!isSwiping) return;
+            currentY = e.clientY;
+            const deltaY = startY - currentY;
+            
+            if (deltaY > 0) {
+                swipeScreen.style.transform = `translateY(-${Math.min(deltaY * 0.5, 100)}px)`;
+                swipeScreen.style.opacity = Math.max(1 - deltaY / 300, 0.3);
+            }
+        });
+        
+        swipeScreen.addEventListener('mouseup', (e) => {
+            if (!isSwiping) return;
+            isSwiping = false;
+            
+            const deltaY = startY - currentY;
+            console.log('Mouse swipe ended. Delta Y:', deltaY);
+            
+            if (deltaY > 80) {
+                console.log('Mouse swipe successful! Unlocking portfolio...');
+                if (backgroundMusic) {
+                    backgroundMusic.play().catch(e => console.log('Music autoplay blocked:', e));
+                }
+                
+                swipeScreen.style.opacity = '0';
+                setTimeout(() => {
+                    swipeScreen.style.display = 'none';
+                    console.log('Swipe screen hidden');
+                }, 500);
+            } else {
+                console.log('Mouse swipe insufficient, resetting...');
+                swipeScreen.style.transform = 'translateY(0)';
+                swipeScreen.style.opacity = '1';
+                // Small delay to prevent click fallback from interfering
+                setTimeout(() => {
+                    isSwiping = false;
+                }, 100);
+            }
+        });
+        
+        // Add click fallback for users who don't understand swipe
+        swipeScreen.addEventListener('click', (e) => {
+            // Only trigger if it's a simple click (not part of a swipe)
+            if (!isSwiping) {
+                console.log('Click detected, unlocking portfolio...');
+                if (backgroundMusic) {
+                    backgroundMusic.play().catch(e => console.log('Music autoplay blocked:', e));
+                }
+                
+                swipeScreen.style.opacity = '0';
+                setTimeout(() => {
+                    swipeScreen.style.display = 'none';
+                    console.log('Swipe screen hidden via click');
+                }, 500);
+            }
+        });
+    }
+        
+    // Body is already visible, no need for fade-in animation
     
     // Simple and elegant cursor trail
     let cursorTrail = [];
