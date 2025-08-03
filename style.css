@@ -1485,8 +1485,13 @@ body {
     align-items: center;
     justify-content: center;
     z-index: 10000;
-    transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.8s ease-out, opacity 0.8s ease-out;
     overflow: hidden;
+}
+
+.swipe-screen.hide {
+    transform: translateY(-100vh);
+    opacity: 0;
 }
 
 .swipe-background {

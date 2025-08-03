@@ -403,11 +403,6 @@ document.addEventListener('DOMContentLoaded', () => {
         startY = e.touches[0].clientY;
         isSwiping = true;
         console.log('Touch started at:', startY);
-        
-        // Add visual feedback
-        if (arrowContainer) {
-            arrowContainer.style.transform = 'scale(1.1)';
-        }
     }
     
     function handleTouchMove(e) {
@@ -415,26 +410,8 @@ document.addEventListener('DOMContentLoaded', () => {
         currentY = e.touches[0].clientY;
         const deltaY = startY - currentY;
         
-        // Visual feedback during swipe
-        if (deltaY > 0) {
-            const progress = Math.min((deltaY / 150) * 100, 100);
-            const opacity = Math.max(1 - deltaY / 400, 0.2);
-            const translateY = Math.min(deltaY * 0.3, 50);
-            
-            swipeScreen.style.transform = `translateY(-${translateY}px)`;
-            swipeScreen.style.opacity = opacity;
-            
-            // Update progress bar
-            if (progressBar) {
-                progressBar.style.width = `${progress}%`;
-            }
-            
-            // Scale arrow based on progress
-            if (arrowContainer) {
-                const scale = 1 + (progress / 100) * 0.2;
-                arrowContainer.style.transform = `scale(${scale})`;
-            }
-        }
+        // No intermediate visual feedback - just track the swipe
+        console.log('Swipe progress:', deltaY);
     }
     
     function handleTouchEnd(e) {
@@ -448,43 +425,20 @@ document.addEventListener('DOMContentLoaded', () => {
         if (deltaY > 100) {
             console.log('Swipe successful! Unlocking portfolio...');
             
-            // Animate success
-            if (progressBar) {
-                progressBar.style.width = '100%';
-            }
-            
             // Start music
             if (backgroundMusic) {
                 backgroundMusic.play().catch(e => console.log('Music autoplay blocked:', e));
             }
             
-            // Hide swipe screen with enhanced animation
-            swipeScreen.style.transform = 'translateY(-100vh)';
-            swipeScreen.style.opacity = '0';
+            // Use CSS transition for smooth animation (same as click)
+            swipeScreen.classList.add('hide');
             setTimeout(() => {
                 swipeScreen.style.display = 'none';
                 console.log('Swipe screen hidden');
             }, 800);
         } else {
-            console.log('Swipe insufficient, resetting...');
-            // Reset position if swipe wasn't sufficient
-            swipeScreen.style.transform = 'translateY(0)';
-            swipeScreen.style.opacity = '1';
-            
-            // Reset progress bar
-            if (progressBar) {
-                progressBar.style.width = '0%';
-            }
-            
-            // Reset arrow scale
-            if (arrowContainer) {
-                arrowContainer.style.transform = 'scale(1)';
-            }
-            
-            // Small delay to prevent click fallback from interfering
-            setTimeout(() => {
-                isSwiping = false;
-            }, 100);
+            console.log('Swipe insufficient, no action taken');
+            // No reset needed since there's no intermediate visual feedback
         }
     }
     
@@ -499,11 +453,6 @@ document.addEventListener('DOMContentLoaded', () => {
             startY = e.clientY;
             isSwiping = true;
             console.log('Mouse down at:', startY);
-            
-            // Add visual feedback
-            if (arrowContainer) {
-                arrowContainer.style.transform = 'scale(1.1)';
-            }
         });
         
         swipeScreen.addEventListener('mousemove', (e) => {
@@ -511,25 +460,8 @@ document.addEventListener('DOMContentLoaded', () => {
             currentY = e.clientY;
             const deltaY = startY - currentY;
             
-            if (deltaY > 0) {
-                const progress = Math.min((deltaY / 150) * 100, 100);
-                const opacity = Math.max(1 - deltaY / 400, 0.2);
-                const translateY = Math.min(deltaY * 0.3, 50);
-                
-                swipeScreen.style.transform = `translateY(-${translateY}px)`;
-                swipeScreen.style.opacity = opacity;
-                
-                // Update progress bar
-                if (progressBar) {
-                    progressBar.style.width = `${progress}%`;
-                }
-                
-                // Scale arrow based on progress
-                if (arrowContainer) {
-                    const scale = 1 + (progress / 100) * 0.2;
-                    arrowContainer.style.transform = `scale(${scale})`;
-                }
-            }
+            // No intermediate visual feedback - just track the swipe
+            console.log('Mouse swipe progress:', deltaY);
         });
         
         swipeScreen.addEventListener('mouseup', (e) => {
@@ -542,41 +474,19 @@ document.addEventListener('DOMContentLoaded', () => {
             if (deltaY > 100) {
                 console.log('Mouse swipe successful! Unlocking portfolio...');
                 
-                // Animate success
-                if (progressBar) {
-                    progressBar.style.width = '100%';
-                }
-                
                 if (backgroundMusic) {
                     backgroundMusic.play().catch(e => console.log('Music autoplay blocked:', e));
                 }
                 
-                // Hide swipe screen with enhanced animation
-                swipeScreen.style.transform = 'translateY(-100vh)';
-                swipeScreen.style.opacity = '0';
+                // Use CSS transition for smooth animation (same as click)
+                swipeScreen.classList.add('hide');
                 setTimeout(() => {
                     swipeScreen.style.display = 'none';
                     console.log('Swipe screen hidden');
                 }, 800);
             } else {
-                console.log('Mouse swipe insufficient, resetting...');
-                swipeScreen.style.transform = 'translateY(0)';
-                swipeScreen.style.opacity = '1';
-                
-                // Reset progress bar
-                if (progressBar) {
-                    progressBar.style.width = '0%';
-                }
-                
-                // Reset arrow scale
-                if (arrowContainer) {
-                    arrowContainer.style.transform = 'scale(1)';
-                }
-                
-                // Small delay to prevent click fallback from interfering
-                setTimeout(() => {
-                    isSwiping = false;
-                }, 100);
+                console.log('Mouse swipe insufficient, no action taken');
+                // No reset needed since there's no intermediate visual feedback
             }
         });
         
@@ -586,18 +496,15 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!isSwiping) {
                 console.log('Click detected, unlocking portfolio...');
                 
-                // Animate success
-                if (progressBar) {
-                    progressBar.style.width = '100%';
-                }
-                
+                // Start music
                 if (backgroundMusic) {
                     backgroundMusic.play().catch(e => console.log('Music autoplay blocked:', e));
                 }
                 
-                // Hide swipe screen with enhanced animation
-                swipeScreen.style.transform = 'translateY(-100vh)';
-                swipeScreen.style.opacity = '0';
+                // Use CSS transition for smooth animation (same as swipe)
+                swipeScreen.classList.add('hide');
+                
+                // Hide swipe screen after animation completes
                 setTimeout(() => {
                     swipeScreen.style.display = 'none';
                     console.log('Swipe screen hidden via click');
