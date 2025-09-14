@@ -2,7 +2,7 @@
 
 // Configuration
 // Update this variable with your actual resume link (can be a local file path or URL)
-const resumeLink = 'https://drive.google.com/file/d/1sk9un7h5EVMiLnYVBYiwxlX4KKng_CV7/view?usp=sharing';
+const resumeLink = 'https://drive.google.com/file/d/1xabhZCPD1vEergypeEzwCqW0OVfBmWwt/view?usp=drive_link';
 
 // DOM Elements
 const navbar = document.getElementById('navbar');
